@@ -333,13 +333,13 @@ class Llama:
             assert all([msg["role"] == "user" for msg in dialog[::2]]) and all(
                 [msg["role"] == "assistant" for msg in dialog[1::2]]
             ), (
-                "model only supports 'system', 'user' and 'assistant' roles, "
-                "starting with 'system', then 'user' and alternating (u/a/u/a/u...)"
+                "model only supports system, user and assistant roles, "
+                "starting with system, then user and alternating (u/a/u/a/u...)"
             )
             dialog_tokens: List[int] = sum(
                 [
                     self.tokenizer.encode(
-                        f"{B_INST} {prompt['content'].strip()} {E_INST} {answer['content'].strip()} ",
+                        f"{B_INST} {prompt[content].strip()} {E_INST} {answer[content].strip()} ",
                         bos=True,
                         eos=True,
                     )
@@ -352,9 +352,9 @@ class Llama:
             )
             assert (
                 dialog[-1]["role"] == "user"
-            ), f"Last message must be from user, got {dialog[-1]['role']}"
+            ), f"Last message must be from user, got {dialog[-1][role]}"
             dialog_tokens += self.tokenizer.encode(
-                f"{B_INST} {dialog[-1]['content'].strip()} {E_INST}",
+                f"{B_INST} {dialog[-1][content].strip()} {E_INST}",
                 bos=True,
                 eos=False,
             )
@@ -513,21 +513,21 @@ def dialog_prompt_tokens(tokenizer: Tokenizer, dialog: Dialog) -> List[int]:
     assert all([msg["role"] == "user" for msg in dialog[1::2]]) and all(
         [msg["role"] == "assistant" for msg in dialog[2::2]]
     ), (
-        "model only supports 'system', 'user' and 'assistant' roles, "
-        "starting with 'system', then 'user' and alternating (u/a/u/a/u...)"
+        "model only supports system, user and assistant roles, "
+        "starting with system, then user and alternating (u/a/u/a/u...)"
     )
     assert (
         dialog[-1]["role"] == "user"
-    ), f"Last message must be from user, got {dialog[-1]['role']}"
+    ), f"Last message must be from user, got {dialog[-1][role]}"
 
     # Format context
     dialog_tokens: List[int] = [tokenizer.bos_id]
     headers: List[str] = []
     for message in dialog:
         headers.clear()
-        headers.append(f"Source: {message['role'].strip()}")
+        headers.append(f"Source: {message[role].strip()}")
         if message.get("destination") is not None:
-            headers.append(f"Destination: {message['destination'].strip()}")
+            headers.append(f"Destination: {message[destination].strip()}")
         header = " " + "\n".join(headers)
         dialog_tokens += tokenizer.encode(header, bos=False, eos=False)
 
