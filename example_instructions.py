@@ -57,12 +57,16 @@ def main(
 
     for instruction, result in zip(instructions, results):
         for msg in instruction:
-            print(f"{msg["role"].capitalize()}: {msg["content"]}\n")
+            print(f"{msg["role"].capitalize()}: {msg["content"]}
+")
         print(
             f"> {result["generation"]["role"].capitalize()}: {result["generation"]["content"]}"
         )
-        print("\n==================================\n")
+        print("
+==================================
+")
 
 
 if __name__ == "__main__":
     fire.Fire(main)
+
