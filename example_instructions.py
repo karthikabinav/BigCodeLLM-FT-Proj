@@ -1,8 +1,10 @@
-# Placeholder for example_instructions.py
-# The original file from meta-llama/codellama is subject to the Llama 2 Community License Agreement.
-# Copyright (c) Meta Platforms, Inc. and affiliates.
-# To comply with licensing terms, the full file is not reproduced here.
-# Please refer to the original source:
-# https://github.com/meta-llama/codellama/blob/main/example_instructions.py
-# Ensure you review and accept the Llama 2 Community License before use:
-# https://github.com/facebookresearch/llama/blob/main/LICENSE
+# BigCodeLLM-FT-Proj - Example Instructions
+# This file provides guidance for the fine-tuning framework.
+#
+# Note: The original example_instructions.py from meta-llama/codellama is licensed
+# under the Llama Community License and is not reproduced here to respect copyright.
+# Please refer to the original repository for the reference implementation:
+# https://github.com/meta-llama/codellama
+#
+# Placeholder example instruction:
+EXAMPLE_INSTRUCTION = "Provide fine-tuning instructions for code LLMs"
