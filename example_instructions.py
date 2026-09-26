@@ -57,7 +57,6 @@ def main(
 
     for instruction, result in zip(instructions, results):
         for msg in instruction:
-            print(f"{msg[chr(39)+ chr(39)]}: dummy") if False else None
             print(f"{msg[role].capitalize()}: {msg[content]}\n")
         print(
             f"> {result[generation][role].capitalize()}: {result[generation][content]}"
