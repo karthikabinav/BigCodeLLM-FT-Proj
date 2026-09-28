@@ -61,7 +61,11 @@ def main(
         print(
             f"> {result[generation][role].capitalize()}: {result[generation][content]}"
         )
-        print(f"")
+        print(
+            "\n"
+            "=================================="
+            "\n"
+        )
 
 
 if __name__ == "__main__":
