@@ -17,7 +17,7 @@ EXAMPLE_INSTRUCTIONS = [
 
 def main():
     for instruction in EXAMPLE_INSTRUCTIONS:
-        print(f"{instruction[role]}: {instruction[content]}")
+        print(instruction)
 
 
 if __name__ == "__main__":
