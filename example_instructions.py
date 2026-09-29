@@ -1,24 +1,68 @@
-"""
-Original example instructions for BigCodeLLM-FT-Proj.
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# This software may be used and distributed according to the terms of the Llama 2 Community License Agreement.
 
-This file is original to this project and does not reproduce the
-copyrighted example_instructions.py from meta-llama/codellama
-(Copyright Meta Platforms, Inc., Llama 2 Community License).
-To view that upstream file, see:
-https://github.com/meta-llama/codellama/blob/main/example_instructions.py
-Use that original only in accordance with its license terms.
-"""
+from typing import Optional
 
-EXAMPLE_INSTRUCTIONS = [
-    {"role": "user", "content": "Write a Python function that returns the sum of a list of numbers."},
-    {"role": "user", "content": "Explain how to list files in a directory using Python standard library functions."},
-]
+import fire
+
+from llama import Llama
 
 
-def main():
-    for instruction in EXAMPLE_INSTRUCTIONS:
-        print(instruction)
+def main(
+    ckpt_dir: str,
+    tokenizer_path: str,
+    temperature: float = 0.2,
+    top_p: float = 0.95,
+    max_seq_len: int = 512,
+    max_batch_size: int = 8,
+    max_gen_len: Optional[int] = None,
+):
+    generator = Llama.build(
+        ckpt_dir=ckpt_dir,
+        tokenizer_path=tokenizer_path,
+        max_seq_len=max_seq_len,
+        max_batch_size=max_batch_size,
+    )
+
+    instructions = [
+        [
+            {
+                "role": "user",
+                "content": "In Bash, how do I list all text files in the current directory (excluding subdirectories) that have been modified in the last month?",
+            }
+        ],
+        [
+            {
+                "role": "user",
+                "content": "What is the difference between inorder and preorder traversal? Give an example in Python.",
+            }
+        ],
+        [
+            {
+                "role": "system",
+                "content": "Provide answers in JavaScript",
+            },
+            {
+                "role": "user",
+                "content": "Write a function that computes the set of sums of all contiguous sublists of a given list.",
+            }
+        ],
+    ]
+    results = generator.chat_completion(
+        instructions,  # type: ignore
+        max_gen_len=max_gen_len,
+        temperature=temperature,
+        top_p=top_p,
+    )
+
+    for instruction, result in zip(instructions, results):
+        for msg in instruction:
+            print(f"{msg['role'].capitalize()}: {msg['content']}\n")
+        print(
+            f"> {result['generation']['role'].capitalize()}: {result['generation']['content']}"
+        )
+        print("\n==================================\n")
 
 
 if __name__ == "__main__":
-    main()
+    fire.Fire(main)
